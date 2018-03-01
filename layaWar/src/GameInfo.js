@@ -1,0 +1,42 @@
+var GameInfo=(function(_super){
+    function GameInfo(){
+        GameInfo.super(this);
+        //暂停游戏
+        this.pauseBtn.on(Laya.Event.CLICK,this,this.onPause)
+        //初始化UI
+        this.reset();
+    }
+    //注册类
+    Laya.class(GameInfo,"GameInfo",_super)
+    _proto=GameInfo.prototype;
+    //点击按钮暂停游戏
+    _proto.onPause=function(e){
+        e.stopPropagation();
+        this.infoLabel.text="游戏已暂停，点击任意地方恢复游戏";
+        pause();
+        //点击任意位置继续游戏
+        Laya.stage.once(Laya.Event.CLICK,this,this.onResume)
+    }
+    //继续游戏
+    _proto.onResume=function(){
+        this.infoLabel.text="";
+        resume();
+    }
+    //初始化UI
+    _proto.reset=function(){
+        this.infoLabel.text="";
+        this.hp(5);
+        this.level(0);
+        this.score(0);
+    }
+    _proto.hp=function(value){
+        this.hpLabel.text="HP:"+value;
+    }
+    _proto.level=function(value){
+        this.levelLabel.text="Level:"+value;
+    }
+    _proto.score=function(value){
+        this.scoreLabel.text="Score:"+value;
+    }
+    return GameInfo;
+})(ui.GameInfoUI)
